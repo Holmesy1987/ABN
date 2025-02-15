@@ -32,4 +32,11 @@ app.get('/scrape-tweets/:handle', async (req, res) => {
     res.json(cryptoCodes);
   } catch (error) {
     console.error('Error scraping tweets:', error);
-    res.status(500).json({ error: 'Failed to scr
+    res.status(500).json({ error: 'Failed to scrape tweets' });
+  }
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

@@ -12,5 +12,11 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// API route to fetch tweets and extract CAs
-ap
+// Simulated route to fetch tweets and contract addresses
+app.get('/fetch-tweets/:handle', async (req, res) => {
+  const { handle } = req.params;
+
+  try {
+    // Simulate tweet data (replace with actual logic later)
+    const tweetData = [
+ 

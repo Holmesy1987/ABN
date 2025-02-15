@@ -1,42 +1,43 @@
-const express = require('express');
-const path = require('path');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABN Server - Crypto Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Add FontAwesome for icons (Photon button for example) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>ABN Server - Crypto Code Tracker</h1>
+      <p>Your go-to place for tracking crypto contracts and getting instant links to Photon Swap.</p>
+    </header>
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+    <!-- Input field to enter Twitter handle -->
+    <div class="input-area">
+      <input type="text" id="handle-input" placeholder="Enter Twitter handle" />
+      <button onclick="fetchTweets()">Start Tracking</button>
+    </div>
 
-// Serve static files from the "public" folder
-app.use(express.static('public'));
+    <!-- Tracked Twitter Handles -->
+    <div class="tracked-list">
+      <h3>Tracked Handles:</h3>
+      <ul id="tracked-handles"></ul>
+    </div>
 
-// Home route to load the frontend
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+    <!-- Display tweets with CAs and Photon Swap links -->
+    <div class="crypto-codes">
+      <h3>Latest Crypto Codes:</h3>
+      <div id="codes-output"></div>
+    </div>
 
-// API route to fetch tweets
-app.get('/fetch-tweets/:handle', async (req, res) => {
-  const { handle } = req.params;
+    <footer>
+      <p>&copy; 2025 ABN Server. All rights reserved.</p>
+    </footer>
+  </div>
 
-  try {
-    // Simulate tweet data or use a third-party API to fetch real tweets
-    const tweetData = [
-      'Check out this new token vTNXmdKveMz4LLwyGrqVGieaVGJKWFdx1kTV1VLpump #Crypto',
-      'Amazing crypto find vD19mGzYT2KRZN6TBDWYfwGErHFDqpSzk9JHFQR32crypto'
-    ];
-
-    // Extract crypto contract addresses (simplified with regex)
-    const cryptoCodes = tweetData.map(tweet => {
-      const match = tweet.match(/([a-zA-Z0-9]{30,})/); // Match long alphanumeric strings
-      return match ? match[0] : null;
-    }).filter(Boolean); // Remove nulls
-
-    res.json(cryptoCodes); // Return the extracted codes to the frontend
-  } catch (error) {
-    console.error('Error fetching tweets:', error);
-    res.status(500).json({ error: 'Failed to fetch tweets' });
-  }
-});
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+  <script src="script.js"></script>
+</body>
+</html>

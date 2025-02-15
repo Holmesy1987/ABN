@@ -3,22 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ABN Server</title>
+  <title>ABN Server - Crypto Tracker</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h1>ABN Server - Crypto Tracker</h1>
-    <div id="ca-extract">
-      <button onclick="fetchCAData()">Fetch CA Data</button>
-      <pre id="ca-output"></pre>
+    <h1>ABN Server - Crypto Code Tracker</h1>
+
+    <!-- Input field to enter Twitter handle -->
+    <div id="twitter-handle">
+      <input type="text" id="handle-input" placeholder="Enter Twitter handle" />
+      <button onclick="fetchTweets()">Fetch Tweets</button>
     </div>
-    <div id="photon-swap">
-      <button onclick="generateSwapLink()">Generate Photon Swap Link</button>
-      <input type="text" id="token-input" placeholder="Enter token">
-      <p id="swap-link"></p>
+
+    <!-- Display extracted CA codes -->
+    <div id="crypto-codes">
+      <h3>Latest Crypto Codes:</h3>
+      <pre id="codes-output"></pre>
     </div>
+
+    <!-- Embedded Tweets will appear here -->
+    <div id="tweet-container"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>

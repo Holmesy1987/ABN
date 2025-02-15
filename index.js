@@ -1,15 +1,16 @@
 const express = require('express');
 const fetch = require('node-fetch');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve static files
-app.use(express.static('public'));
+// Serve static files from the "public" folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Home route
 app.get('/', (req, res) => {
-  res.send('ABN Server is running');
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Real-Time CA Extraction (Placeholder)

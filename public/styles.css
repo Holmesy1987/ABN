@@ -59,3 +59,8 @@ pre {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+a {
+  color: #00ff00;
+  text-decoration: none;
+}

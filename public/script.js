@@ -1,28 +1,33 @@
-// Fetch CA Data from Backend
-function fetchCAData() {
-  fetch('/ca-extract')
-    .then(response => response.json())
-    .then(data => {
-      document.getElementById('ca-output').textContent = JSON.stringify(data, null, 2);
-    })
-    .catch(error => {
-      console.error('Error fetching CA data:', error);
-    });
+// Fetch Tweets for the entered Twitter handle
+function fetchTweets() {
+  const handle = document.getElementById('handle-input').value.trim();
+
+  if (handle) {
+    const tweetContainer = document.getElementById('tweet-container');
+    tweetContainer.innerHTML = ''; // Clear any previous tweets
+
+    // Create Twitter embed URL (this will pull the latest tweet from the handle)
+    const tweetEmbedURL = `https://twitter.com/${handle}`;
+
+    // Create the embed iframe element
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://twitframe.com/show?url=${tweetEmbedURL}`;
+    iframe.width = "500";
+    iframe.height = "300";
+    tweetContainer.appendChild(iframe);
+
+    // Example: after embedding, you'd fetch the text content and parse for crypto code
+    const extractedText = extractCryptoCodeFromTweet("Here is a contract address: vTNXmdKveMz4LLwyGrqVGieaVGJKWFdx1kTV1VLpump");
+    document.getElementById('codes-output').textContent = extractedText;
+
+  } else {
+    alert('Please enter a Twitter handle.');
+  }
 }
 
-// Generate Photon Swap Link
-function generateSwapLink() {
-  const token = document.getElementById('token-input').value;
-  if (token) {
-    fetch(`/photon-swap/${token}`)
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('swap-link').textContent = `Swap Link: ${data.link}`;
-      })
-      .catch(error => {
-        console.error('Error generating swap link:', error);
-      });
-  } else {
-    alert('Please enter a token');
-  }
+// Extract crypto code (simple regex for demonstration)
+function extractCryptoCodeFromTweet(tweet) {
+  const regex = /([a-zA-Z0-9]{30,})/; // Match long alphanumeric strings
+  const match = tweet.match(regex);
+  return match ? match[0] : 'No crypto code found';
 }

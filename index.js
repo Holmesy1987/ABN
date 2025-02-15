@@ -19,4 +19,3 @@ app.get('/fetch-tweets/:handle', async (req, res) => {
   try {
     // Simulate tweet data (replace with actual logic later)
     const tweetData = [
- 

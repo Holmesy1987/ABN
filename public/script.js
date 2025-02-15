@@ -6,19 +6,36 @@ function fetchTweets() {
   const handle = document.getElementById('handle-input').value.trim();
 
   if (handle) {
-    // Add to tracking list
+    console.log('Fetching tweets for handle:', handle); // Debug log
+
+    // Add to tracking list if not already there
     if (!trackedHandles.includes(handle)) {
       trackedHandles.push(handle);
-      updateTrackingList();
+      updateTrackingList(); // Update list UI
     }
 
-    // Call API to fetch tweets
+    // Send request to fetch tweets from the backend API
     fetch(`/fetch-tweets/${handle}`)
-      .then(response => response.json())
+      .then(response => {
+        // Check if the response is OK (status 200)
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse the JSON response
+      })
       .then(data => {
+        console.log('Fetched tweet data:', data); // Debug log
         const codesOutput = document.getElementById('codes-output');
+        codesOutput.innerHTML = ''; // Clear previous data
+
+        // Check if data is empty
+        if (data.length === 0) {
+          codesOutput.innerHTML = '<p>No contract addresses found in tweets.</p>';
+          return;
+        }
+
+        // Display each tweet with its CA and Photon Swap link
         data.forEach(({ code, tweet }) => {
-          // Create tweet with clickable Photon link
           const tweetElement = document.createElement('div');
           tweetElement.classList.add('tweet');
           tweetElement.innerHTML = `
@@ -32,7 +49,7 @@ function fetchTweets() {
       })
       .catch(error => {
         console.error('Error fetching tweets:', error);
-        alert('Error fetching tweets');
+        alert('Error fetching tweets.');
       });
   } else {
     alert('Please enter a Twitter handle.');
@@ -42,7 +59,8 @@ function fetchTweets() {
 // Update the tracking list UI
 function updateTrackingList() {
   const listElement = document.getElementById('tracked-handles');
-  listElement.innerHTML = '';
+  listElement.innerHTML = ''; // Clear previous list
+
   trackedHandles.forEach(handle => {
     const li = document.createElement('li');
     li.textContent = handle;

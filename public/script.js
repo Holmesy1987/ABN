@@ -1,30 +1,52 @@
+// Track the entered Twitter handles
+let trackedHandles = [];
+
 // Fetch Tweets for the entered Twitter handle
 function fetchTweets() {
   const handle = document.getElementById('handle-input').value.trim();
 
   if (handle) {
-    const startTime = Date.now(); // Start time to measure speed
+    // Add to tracking list
+    if (!trackedHandles.includes(handle)) {
+      trackedHandles.push(handle);
+      updateTrackingList();
+    }
 
+    // Call API to fetch tweets
     fetch(`/fetch-tweets/${handle}`)
       .then(response => response.json())
       .then(data => {
-        const elapsedTime = Date.now() - startTime;
-        const cryptoCodes = data.length > 0 ? data.join('\n') : 'No crypto codes found.';
-        document.getElementById('codes-output').textContent = cryptoCodes;
-
-        // Append Photon Swap links
-        data.forEach(code => {
-          const photonLink = `https://photon-swap.com/swap?token=${code}`;
-          document.getElementById('codes-output').textContent += `\n[Link to Photon Swap for ${code}](${photonLink})`;
+        const codesOutput = document.getElementById('codes-output');
+        data.forEach(({ code, tweet }) => {
+          // Create tweet with clickable Photon link
+          const tweetElement = document.createElement('div');
+          tweetElement.classList.add('tweet');
+          tweetElement.innerHTML = `
+            <p>${tweet}</p>
+            <a href="https://photon-swap.com/swap?token=${code}" target="_blank">
+              <button>Click to Photon</button>
+            </a>
+          `;
+          codesOutput.appendChild(tweetElement);
         });
-
-        console.log('Fetched and parsed tweets in:', elapsedTime, 'ms');
       })
       .catch(error => {
         console.error('Error fetching tweets:', error);
-        document.getElementById('codes-output').textContent = 'Error fetching tweets.';
+        alert('Error fetching tweets');
       });
   } else {
     alert('Please enter a Twitter handle.');
   }
 }
+
+// Update the tracking list UI
+function updateTrackingList() {
+  const listElement = document.getElementById('tracked-handles');
+  listElement.innerHTML = '';
+  trackedHandles.forEach(handle => {
+    const li = document.createElement('li');
+    li.textContent = handle;
+    listElement.appendChild(li);
+  });
+}
+

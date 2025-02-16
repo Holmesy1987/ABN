@@ -1,31 +1,41 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const PORT = process.env.PORT || 3000;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABN Server - Crypto Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>ABN Server - Crypto Tracker</h1>
+      <p>Track crypto tokens in real-time with direct links to Photon Swap.</p>
+    </header>
 
-app.use(express.static(path.join(__dirname, 'public')));
+    <div class="input-area">
+      <input type="text" id="handle-input" placeholder="Enter Twitter handle" />
+      <button onclick="startTracking()">Start Tracking</button>
+    </div>
 
-// Simulated API route to fetch tweets with contract addresses
-app.get('/fetch-tweets/:handle', (req, res) => {
-  const { handle } = req.params;
+    <div class="tracked-handles">
+      <h3>Tracked Handles:</h3>
+      <ul id="tracked-handles-list"></ul>
+    </div>
 
-  // Simulated tweets with contract addresses
-  const tweetData = [
-    { tweet: `Check out this new token vTNXmdKveMz4LLwyGrqVGieaVGJKWFdx1kTV1VLpump #Crypto` },
-    { tweet: `Amazing crypto find vD19mGzYT2KRZN6TBDWYfwGErHFDqpSzk9JHFQR32crypto` },
-    { tweet: `New project launching soon vZ7eLmcBxR4hdsc9d0uTDrbcYwVs7wtK9AkLsd38crypto` }
-  ];
+    <div class="recent-tweets">
+      <h3>Recent Tweets with Contract Addresses:</h3>
+      <div id="tweets-output"></div>
+    </div>
 
-  // Regex to extract contract addresses
-  const cryptoCodes = tweetData.map(tweet => {
-    const match = tweet.tweet.match(/([a-zA-Z0-9]{30,})/);  // Match contract address pattern
-    return match ? { code: match[0], tweet: tweet.tweet } : null;
-  }).filter(Boolean);
+    <footer>
+      <p>&copy; 2025 ABN Server. All rights reserved.</p>
+    </footer>
+  </div>
 
-  res.json(cryptoCodes);  // Send back the contract addresses in JSON format
-});
+  <!-- Audio for bell sound -->
+  <audio id="bell-sound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,64 +1,55 @@
-// Track the entered Twitter handles
 let trackedHandles = [];
 
-// Fetch Tweets for the entered Twitter handle
-function fetchTweets() {
+// Function to start tracking a Twitter handle
+function startTracking() {
   const handle = document.getElementById('handle-input').value.trim();
 
   if (handle) {
-    console.log('Fetching tweets for handle:', handle); // Debug log
-
-    // Add to tracking list if not already there
+    // Add handle to the tracked list
     if (!trackedHandles.includes(handle)) {
       trackedHandles.push(handle);
-      updateTrackingList(); // Update list UI
+      updateTrackedList();
     }
 
-    // Send request to fetch tweets from the backend API
-    fetch(`/fetch-tweets/${handle}`)
-      .then(response => {
-        // Check if the response is OK (status 200)
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json(); // Parse the JSON response
-      })
-      .then(data => {
-        console.log('Fetched tweet data:', data); // Debug log
-        const codesOutput = document.getElementById('codes-output');
-        codesOutput.innerHTML = ''; // Clear previous data
-
-        // Check if data is empty
-        if (data.length === 0) {
-          codesOutput.innerHTML = '<p>No contract addresses found in tweets.</p>';
-          return;
-        }
-
-        // Display each tweet with its CA and Photon Swap link
-        data.forEach(({ code, tweet }) => {
-          const tweetElement = document.createElement('div');
-          tweetElement.classList.add('tweet');
-          tweetElement.innerHTML = `
-            <p>${tweet}</p>
-            <a href="https://photon-swap.com/swap?token=${code}" target="_blank">
-              <button>Click to Photon</button>
-            </a>
-          `;
-          codesOutput.appendChild(tweetElement);
-        });
-      })
-      .catch(error => {
-        console.error('Error fetching tweets:', error);
-        alert('Error fetching tweets.');
-      });
+    // Call function to get recent tweets
+    fetchRecentTweets(handle);
+    // Start polling for new tweets every 5 seconds
+    setInterval(() => fetchRecentTweets(handle), 5000);
   } else {
-    alert('Please enter a Twitter handle.');
+    alert('Please enter a valid Twitter handle.');
   }
 }
 
-// Update the tracking list UI
-function updateTrackingList() {
-  const listElement = document.getElementById('tracked-handles');
+// Fetch recent tweets from the entered Twitter handle
+function fetchRecentTweets(handle) {
+  fetch(`/fetch-tweets/${handle}`)
+    .then(response => response.json())
+    .then(data => {
+      const tweetsOutput = document.getElementById('tweets-output');
+      tweetsOutput.innerHTML = ''; // Clear previous tweets
+
+      // Show the most recent tweets
+      data.forEach(({ tweet, code }) => {
+        const tweetElement = document.createElement('div');
+        tweetElement.classList.add('tweet');
+        tweetElement.innerHTML = `
+          <p>${tweet}</p>
+          <a href="https://photon-swap.com/swap?token=${code}" target="_blank">
+            <button>Click to Photon</button>
+          </a>
+        `;
+        tweetsOutput.appendChild(tweetElement);
+      });
+    })
+    .catch(error => {
+      console.error('Error fetching tweets:', error);
+      alert('Error fetching tweets.');
+    });
+}
+
+// Update the tracked handles list UI
+function updateTrackedList() {
+  const listElement = document.getElementById('tracked-handles-list');
   listElement.innerHTML = ''; // Clear previous list
 
   trackedHandles.forEach(handle => {

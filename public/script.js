@@ -5,19 +5,24 @@ function startTracking() {
   const handle = document.getElementById('handle-input').value.trim();
 
   if (handle) {
-    // Add handle to the tracked list
     if (!trackedHandles.includes(handle)) {
       trackedHandles.push(handle);
       updateTrackedList();
     }
 
-    // Call function to get recent tweets
+    // Fetch recent tweets from this handle
     fetchRecentTweets(handle);
     // Start polling for new tweets every 5 seconds
     setInterval(() => fetchRecentTweets(handle), 5000);
   } else {
     alert('Please enter a valid Twitter handle.');
   }
+}
+
+// Function to play the bell sound
+function playBellSound() {
+  const bellSound = document.getElementById('bell-sound');
+  bellSound.play();
 }
 
 // Fetch recent tweets from the entered Twitter handle
@@ -39,6 +44,11 @@ function fetchRecentTweets(handle) {
           </a>
         `;
         tweetsOutput.appendChild(tweetElement);
+
+        // Play bell sound when a crypto code is detected
+        if (code) {
+          playBellSound(); // Play sound when crypto code is found
+        }
       });
     })
     .catch(error => {

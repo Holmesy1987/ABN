@@ -1,9 +1,39 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #1A1A2E;
-  color: white;
+/* 
+  Basic Reset & Matrix-Like Aesthetic 
+*/
+
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+/* Matrix-Style Animated Background */
+.matrix-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: black;
+  pointer-events: none;
+  z-index: -1;
+  animation: matrixRain 10s linear infinite;
+}
+
+/* Example matrix code rain effect (simplified) */
+@keyframes matrixRain {
+  0% { background: #000; }
+  50% { background: radial-gradient(circle, #1A1A2E 40%, #000000 100%); }
+  100% { background: #000; }
+}
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  color: #00E5A4;
+  background-color: #000; /* Fallback if animation doesn't load */
+  overflow-x: hidden;
+  min-height: 100vh;
 }
 
 .container {
@@ -11,6 +41,9 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  color: #fff;
+  position: relative;
+  z-index: 10;
 }
 
 header {
@@ -20,36 +53,66 @@ header {
 
 h1 {
   font-size: 3rem;
-  color: #00E5A4;
+  text-shadow: 0 0 10px #00E5A4;
+  margin-bottom: 10px;
 }
 
-input {
-  padding: 10px;
-  font-size: 1rem;
-  width: 60%;
+p {
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.input-area {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-button {
+.input-area input {
+  padding: 10px;
+  font-size: 1rem;
+  width: 40%;
+  margin-bottom: 10px;
+  border: 2px solid #00E5A4;
+  background-color: transparent;
+  color: #00E5A4;
+}
+
+.input-area button {
   padding: 12px 20px;
   background-color: #00E5A4;
-  color: #fff;
+  color: #000;
   font-size: 1rem;
   border: none;
   cursor: pointer;
   margin-left: 5px;
+  transition: background-color 0.3s;
 }
 
-button:hover {
+.input-area button:hover {
   background-color: #00b58b;
 }
 
-.recent-tweets {
-  margin-top: 30px;
+.tracked-handles, .recent-tweets, .market-cap-section, .ai-section, .dex-section {
+  background: rgba(0, 0, 0, 0.5);
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 8px;
 }
 
-.recent-tweets h3 {
+.tracked-handles h3, .recent-tweets h3, .market-cap-section h3, .ai-section h3, .dex-section h3 {
   font-size: 1.8rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 5px #00E5A4;
+}
+
+#tracked-handles-list {
+  list-style: none;
+  padding: 0;
+  color: #fff;
+}
+
+#tracked-handles-list li {
+  margin: 5px 0;
 }
 
 .recent-tweets .tweet {
@@ -67,7 +130,7 @@ button:hover {
 .recent-tweets button {
   padding: 10px 20px;
   background-color: #00E5A4;
-  color: #fff;
+  color: #000;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -78,6 +141,10 @@ button:hover {
   background-color: #00b58b;
 }
 
+.market-cap-section, .ai-section, .dex-section {
+  display: none; /* toggled via script */
+}
+
 footer {
   text-align: center;
   margin-top: 50px;
@@ -86,20 +153,4 @@ footer {
 footer p {
   font-size: 1rem;
   color: #aaa;
-}
-
-.tracked-handles ul {
-  list-style: none;
-  padding: 0;
-}
-
-.market-cap-section, .ai-section {
-  margin-top: 30px;
-  background-color: rgba(255,255,255,0.1);
-  padding: 20px;
-  border-radius: 8px;
-}
-
-.market-cap-section h3, .ai-section h3 {
-  font-size: 1.8rem;
 }

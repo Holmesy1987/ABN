@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+  <div class="matrix-background"></div> <!-- Matrix style background effect -->
   <div class="container">
     <header>
       <h1>ABN Server - Crypto Tracker</h1>
@@ -31,14 +32,22 @@
       <div id="tweets-output"></div>
     </div>
 
+    <!-- Market cap ranking -->
     <div class="market-cap-section" id="market-cap-section" style="display:none;">
       <h3>Market Cap Ranking</h3>
       <div id="market-cap-list"></div>
     </div>
 
+    <!-- AI-based suggestions -->
     <div class="ai-section" id="ai-section" style="display:none;">
       <h3>AI-Based Trade Suggestions</h3>
       <div id="ai-output"></div>
+    </div>
+
+    <!-- Example embedded DEX chart -->
+    <div class="dex-section" id="dex-section">
+      <h3>Live DEX Screener Chart</h3>
+      <iframe id="dex-iframe" src="" width="100%" height="400" style="border: none;"></iframe>
     </div>
 
     <footer>

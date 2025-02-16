@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ABN Server - Crypto Tracker</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
   <div class="container">
@@ -16,6 +16,9 @@
     <div class="input-area">
       <input type="text" id="handle-input" placeholder="Enter Twitter handle" />
       <button onclick="startTracking()">Start Tracking</button>
+      <button onclick="showAISuggestions()">AI Suggestions</button>
+      <button onclick="toggleMarketCap()">Market Cap</button>
+      <button onclick="location.href='new.html'">Newly Tweeted CAs</button>
     </div>
 
     <div class="tracked-handles">
@@ -26,6 +29,16 @@
     <div class="recent-tweets">
       <h3>Recent Tweets with Contract Addresses:</h3>
       <div id="tweets-output"></div>
+    </div>
+
+    <div class="market-cap-section" id="market-cap-section" style="display:none;">
+      <h3>Market Cap Ranking</h3>
+      <div id="market-cap-list"></div>
+    </div>
+
+    <div class="ai-section" id="ai-section" style="display:none;">
+      <h3>AI-Based Trade Suggestions</h3>
+      <div id="ai-output"></div>
     </div>
 
     <footer>

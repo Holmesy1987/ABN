@@ -1,36 +1,43 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+const axios = require('axios'); // For fetching market cap and tweets
 const PORT = process.env.PORT || 3000;
 
-// Serve static files from the "public" folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Home route to serve the frontend HTML page
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-// API route to simulate fetching tweets (mock data)
+// API route to simulate fetching tweets
 app.get('/fetch-tweets/:handle', (req, res) => {
   const { handle } = req.params;
 
-  // Simulate mock tweet data for testing
+  // Simulated tweets for testing
   const tweetData = [
     { tweet: 'Check out this new token vTNXmdKveMz4LLwyGrqVGieaVGJKWFdx1kTV1VLpump #Crypto' },
-    { tweet: 'Amazing crypto find vD19mGzYT2KRZN6TBDWYfwGErHFDqpSzk9JHFQR32crypto' }
+    { tweet: 'Amazing crypto find vD19mGzYT2KRZN6TBDWYfwGErHFDqpSzk9JHFQR32crypto' },
+    { tweet: 'New project launching soon vZ7eLmcBxR4hdsc9d0uTDrbcYwVs7wtK9AkLsd38crypto' }
   ];
 
-  // Extract contract addresses (CAs) from the tweets
+  // Regex to extract contract addresses
   const cryptoCodes = tweetData.map(tweet => {
-    const match = tweet.tweet.match(/([a-zA-Z0-9]{30,})/);  // Match long alphanumeric strings (CAs)
+    const match = tweet.tweet.match(/([a-zA-Z0-9]{30,})/);  // Match alphanumeric strings as contract addresses
     return match ? { code: match[0], tweet: tweet.tweet } : null;
-  }).filter(Boolean);  // Remove null values
+  }).filter(Boolean);
 
-  res.json(cryptoCodes);  // Send the extracted CAs as a JSON response
+  res.json(cryptoCodes); // Send back the contract addresses in JSON
 });
 
-// Start the server
+// Fetch market cap data
+app.get('/market-cap', async (req, res) => {
+  try {
+    const response = await axios.get('https://api.coingecko.com/api/v3/coins/bitcoin'); // Example for Bitcoin
+    res.json(response.data);
+  } catch (error) {
+    console.error('Error fetching market cap:', error);
+    res.status(500).json({ error: 'Unable to fetch market cap data.' });
+  }
+});
+
+// Start server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

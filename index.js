@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -19,11 +18,11 @@ app.get('/fetch-tweets/:handle', (req, res) => {
 
   // Regex to extract contract addresses
   const cryptoCodes = tweetData.map(tweet => {
-    const match = tweet.tweet.match(/([a-zA-Z0-9]{30,})/);
+    const match = tweet.tweet.match(/([a-zA-Z0-9]{30,})/);  // Match contract address pattern
     return match ? { code: match[0], tweet: tweet.tweet } : null;
   }).filter(Boolean);
 
-  res.json(cryptoCodes); // Send back the contract addresses in JSON
+  res.json(cryptoCodes);  // Send back the contract addresses in JSON format
 });
 
 // Start server

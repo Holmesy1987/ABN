@@ -37,6 +37,7 @@ button {
   font-size: 1rem;
   border: none;
   cursor: pointer;
+  margin-left: 5px;
 }
 
 button:hover {
@@ -87,59 +88,18 @@ footer p {
   color: #aaa;
 }
 
-.handles-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+.tracked-handles ul {
+  list-style: none;
+  padding: 0;
 }
 
-.handle-card {
-  background-color: #2D3142;
-  padding: 10px;
+.market-cap-section, .ai-section {
+  margin-top: 30px;
+  background-color: rgba(255,255,255,0.1);
+  padding: 20px;
   border-radius: 8px;
-  color: white;
-  display: flex;
-  align-items: center;
-  width: 250px;
 }
 
-.handle-card img {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  margin-right: 10px;
-}
-
-.handle-card a {
-  color: #00E5A4;
-  font-size: 1rem;
-  text-decoration: none;
-}
-
-.handle-card .status {
-  font-size: 0.9rem;
-  color: #AAA;
-  margin-left: auto;
-}
-
-.handle-card:hover {
-  background-color: #1A1A2E;
-  cursor: pointer;
-}
-
-.handle-card .actions {
-  display: flex;
-  gap: 10px;
-}
-
-.handle-card .actions button {
-  background-color: #00E5A4;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-}
-
-.handle-card .actions button:hover {
-  background-color: #00b58b;
+.market-cap-section h3, .ai-section h3 {
+  font-size: 1.8rem;
 }

@@ -1,37 +1,63 @@
 const express = require('express');
 const path = require('path');
-const app = express();
-const PORT = process.env.PORT || 3000;
+const axios = require('axios');
+const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
 
-// Serve static files (HTML, CSS, JS) from the 'public' folder
+////////////////////////////////////////
+// Discord Webhook Setup
+////////////////////////////////////////
+const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/...'; // Put your Discord webhook URL here
+
+////////////////////////////////////////
+// Mock Data or Real Integration Flags
+////////////////////////////////////////
+const USE_REAL_MARKET_CAP_API = false; // If true, will use CoinGecko for real data
+const USE_REAL_TWITTER_SCRAPING = false; // If true, would integrate a real scraping or Twitter API logic
+
+////////////////////////////////////////
+// Express Setup
+////////////////////////////////////////
+const app = express();
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Simulated API route to fetch tweets with contract addresses
-app.get('/fetch-tweets/:handle', (req, res) => {
-  const { handle } = req.params;
+////////////////////////////////////////
+// Basic Structures
+////////////////////////////////////////
+let trackedHandles = [];
+let trackedHighFollowerAccounts = []; // For 50K+ follower accounts
 
-  // Simulated tweets with contract addresses
-  const tweetData = [
-    { tweet: `Check out this new token vTNXmdKveMz4LLwyGrqVGieaVGJKWFdx1kTV1VLpump #Crypto` },
-    { tweet: `Amazing crypto find vD19mGzYT2KRZN6TBDWYfwGErHFDqpSzk9JHFQR32crypto` },
-    { tweet: `New project launching soon vZ7eLmcBxR4hdsc9d0uTDrbcYwVs7wtK9AkLsd38crypto` }
+// Sample store for Market Cap data (auto-updated)
+let marketCapData = [
+  { token: 'Bitcoin', marketCap: 500000000000, symbol: 'BTC' },
+  { token: 'Ethereum', marketCap: 200000000000, symbol: 'ETH' },
+  { token: 'Solana', marketCap: 40000000000, symbol: 'SOL' }
+];
+
+// AI-based trade suggestions placeholder
+function getAITradeSuggestions() {
+  // Simple placeholder logic
+  // Real logic would analyze volume, price action, sentiment, etc.
+  return [
+    { token: 'Ethereum', suggestion: 'BUY', reason: 'Positive momentum' },
+    { token: 'Solana', suggestion: 'WATCH', reason: 'Possible breakout' }
   ];
+}
 
-  // Regex to extract contract addresses
-  const cryptoCodes = tweetData.map(tweet => {
-    const match = tweet.tweet.match(/([a-zA-Z0-9]{30,})/);  // Match contract address pattern
-    return match ? { code: match[0], tweet: tweet.tweet } : null;
-  }).filter(Boolean);
+////////////////////////////////////////
+// Routes
+////////////////////////////////////////
 
-  res.json(cryptoCodes);  // Send back the contract addresses in JSON format
-});
-
-// Serve the index.html from the 'public' folder
+// Main HTML
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// Newly Tweeted CA Page
+app.get('/new.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'new.html'));
 });
+
+// Fetch tweets for a given handle (mock or real)
+app.get('/fetch-tweets/:handle',

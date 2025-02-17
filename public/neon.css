@@ -1,0 +1,163 @@
+/* Basic reset & neon theme */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+  background: #010a0a;
+  color: #0aff9d;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Animated neon background */
+.neon-background {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  background: radial-gradient(circle, rgba(10,255,157,0.1) 0%, #010a0a 100%);
+  animation: neonGlow 8s infinite alternate;
+}
+@keyframes neonGlow {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Header / Nav */
+.neon-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f0f0f;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(10, 255, 157, 0.2);
+}
+.neon-header .logo h1 {
+  color: #0aff9d;
+  font-size: 2rem;
+  text-shadow: 0 0 10px #0aff9d;
+}
+.nav-links ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.nav-links ul li a {
+  color: #0aff9d;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links ul li a:hover {
+  color: #00d68c;
+}
+
+/* Main Layout */
+.main-layout {
+  display: flex;
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+  gap: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+  flex: 1;
+  background: rgba(10,255,157,0.05);
+  border: 1px solid rgba(10,255,157,0.2);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(10,255,157,0.1);
+}
+.sidebar h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #0aff9d;
+  text-shadow: 0 0 5px #0aff9d;
+}
+.input-area {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.input-area input {
+  flex: 1;
+  background: #001514;
+  border: 1px solid #0aff9d55;
+  color: #0aff9d;
+  padding: 10px;
+}
+.input-area button {
+  background: #0aff9d;
+  border: none;
+  color: #000;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.input-area button:hover {
+  background: #00b58b;
+}
+.handle-list {
+  list-style: none;
+}
+.handle-list li {
+  background: rgba(10,255,157,0.08);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.handle-list li:hover {
+  background: rgba(10,255,157,0.2);
+}
+
+/* Trade Panel (Main) */
+.trade-panel {
+  flex: 2;
+  background: rgba(10,255,157,0.05);
+  border: 1px solid rgba(10,255,157,0.2);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(10,255,157,0.1);
+}
+.trade-panel h2 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #0aff9d;
+  text-shadow: 0 0 5px #0aff9d;
+}
+.tweet-output div {
+  border: 1px solid rgba(10,255,157,0.2);
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: rgba(10,255,157,0.08);
+  color: #afffe6;
+}
+.tweet-output div:hover {
+  background: rgba(10,255,157,0.15);
+}
+.tweet-output button {
+  background: #0aff9d;
+  color: #000;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.tweet-output button:hover {
+  background: #00d68c;
+}
+
+/* Neon Glow Animation */
+@keyframes neonGlow {
+  0% { box-shadow: 0 0 5px #0aff9d; }
+  100% { box-shadow: 0 0 20px #0aff9d; }
+}
